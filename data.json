@@ -8,15 +8,15 @@
 		"supports":[
 			{
 				"type":1,
-				"description":"在线支付满25减14"
+				"decrease":"在线支付满25减14"
 			},
 			{
 				"type":2,
-				"description":"全场商品九折"
+				"discount":"全场商品九折"
 			},
 			{
 				"type":3,
-				"description":"新用户首单立减10元"
+				"initial":"新用户首单立减10元"
 			}
 		]
 	}
