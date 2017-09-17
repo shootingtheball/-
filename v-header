@@ -8,10 +8,10 @@
 			<div class="content">
 				<div class="title"> {{seller.name}} <span><img src="./more.png" width="7%" height="7%"></span></div>
 				<div class="description">{{seller.description}}</div>
-				<div class="supports">{{seller.deliverTime}}</div>
+				<div class="supports">商家配送 · 约{{seller.deliverTime}}分钟</div>
 			</div>
 		</div> 
-		<div class="bulletin-wrapper"></div>
+		<div class="bulletin-wrapper" v-if="seller.supports[0]"><span><img :src="computedSrc" alt=""></span></div>
 	</div>
 </template>
 
@@ -19,9 +19,31 @@
 <script>
 	export default{
 		name:"vHeader",
-		props:["seller"],
-		data(){
+		props:{
+			seller:{
+				type:Object
+			}
+		},
+		data() {
 			return {
+				vSrc:""
+			}
+		},
+		computed:{
+			computedSrc() {
+      if(seller.supports[0].type===0){
+        this.vSrc = require("./decrease.png");
+        return this.vSrc
+        }
+    else if(seller.supports[0].type===1){
+       this.vSrc =require("./discount.png");
+       return this.vSrc
+       }
+    else if(seller.supports[0].type===2){
+      this.vSrc =require("./initial.png");
+      return this.vSrc
+       }
+      v-if="seller.supports[0]"
 			}
 		}
 	}
@@ -34,45 +56,60 @@
 	width:100%;
 	position: relative;
 	height: 400px;
-	border: 1px solid black;
 }
 .content-wrapper{
 	height: 300px;
 	position: relative;
-	background: rgba(7, 17, 27, 0.2)
+	background: rgba(7, 17, 27, 0.3)
+}
+.bulletin-wrapper{
+	border: 1px solid red;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 45px;
+}
+.bulletin-wrapper img{
+	width: 45px;
 }
 .avatar{
 	display: inline-block;
 	vertical-align: middle;
 	margin-left: 50px;
 	margin-top: 90px;
-	border: 1px solid red;
 }
 .avatar img{
 	width: 230px;
 }
 .content{
+	color: #fff;
 	display: inline-block;
-	width: 600px;
+	width: 640px;
 	vertical-align: middle;
-	font-size: 0;
 	white-space: nowrap;
-	word-wrap: break-word;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	margin-left: 20px;
+	margin-top: 60px;
 }
 .title{
-	font-size: 30px;
-	height: 200px
+	font-size: 50px;
+	height: 50px;
+	line-height: 50px;
 }
-.title span{
 
-}
 .description{
-	font-size: 20px;
+	margin-top: 20px;
+	font-size: 23px;
 }
 .supports{
-	font-size: 15px;
+	margin-top: 20px;
+	font-size: 21px;
+	width: 210px;
+	height: 28px;
+	line-height: 28px;
+	text-align: center;
+	border: 1px solid #fff;
 }
 .background{
 	position: absolute;
