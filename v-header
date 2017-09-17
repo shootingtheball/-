@@ -6,9 +6,9 @@
 		    </div>
 			<div class="avatar"><img src="./zhangliang.jpg" alt=""></div>
 			<div class="content">
-				<div class="title"> {{seller.name}} <span><img src="./more.png" width="7%" height="7%"></span></div>
+				<div class="title"> {{seller.name}} <span><img src="./decrease.png" width="7%" height="7%"></span></div>
 				<div class="description">{{seller.description}}</div>
-				<div class="supports">商家配送 · 约{{seller.deliverTime}}分钟</div>
+				<div class="supports" >商家配送 · 约{{seller.deliverTime}}分钟</div>
 			</div>
 		</div> 
 		<div class="bulletin-wrapper" v-if="seller.supports[0]"><span><img :src="computedSrc" alt=""></span></div>
@@ -17,6 +17,10 @@
 
 
 <script>
+	 var vDecrease = require("./decrease.png");
+	 var vInitial = require("./initial.png");
+	 var vDiscount = require("./discount.png");
+
 	export default{
 		name:"vHeader",
 		props:{
@@ -26,28 +30,17 @@
 		},
 		data() {
 			return {
-				vSrc:""
+				vDecrease,
+				vInitial,
+				vDiscount
 			}
 		},
 		computed:{
 			computedSrc() {
-      if(seller.supports[0].type===0){
-        this.vSrc = require("./decrease.png");
-        return this.vSrc
-        }
-    else if(seller.supports[0].type===1){
-       this.vSrc =require("./discount.png");
-       return this.vSrc
-       }
-    else if(seller.supports[0].type===2){
-      this.vSrc =require("./initial.png");
-      return this.vSrc
-       }
-      v-if="seller.supports[0]"
-			}
+				return this.vSrc;
 		}
+	  }
 	}
-
 </script>
 
 
@@ -56,6 +49,7 @@
 	width:100%;
 	position: relative;
 	height: 400px;
+	border: 2px solid black;
 }
 .content-wrapper{
 	height: 300px;
@@ -80,6 +74,7 @@
 }
 .avatar img{
 	width: 230px;
+	height: 230px;
 }
 .content{
 	color: #fff;
