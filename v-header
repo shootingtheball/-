@@ -4,14 +4,25 @@
 		    <div class="background">
 				<img src="./zhangliang.jpg" alt="背景图片" width="100%" height="100%">
 		    </div>
-			<div class="avatar"><img src="./zhangliang.jpg" alt=""></div>
+			<div class="avatar" ><img src="./zhangliang.jpg" alt=""></div>
 			<div class="content">
 				<div class="title"  v-if="seller.supports">{{seller.name}} </div>
 				<div class="description">{{seller.description}}</div>
 				<div class="supports">商家配送约{{seller.deliverTime}}</div>
 			</div>
 		</div>
-		 <div class="bulletin-wrapper" v-if="seller.supports"><span><img :src="vSrc" ></span>{{seller.description}}</div>
+		 <div class="bulletin-wrapper" v-if="seller.supports" @click="computedDetial"><span >
+			 <img :src="computedSrc" ></span>{{seller.description}}</div>
+		 <div v-show="vDetial" class="detial">
+			 <div class="detial-wraper">
+				 <div class="detial-content">
+					 <vStar :size="size" :score="score"></vStar>
+				 </div>
+			 </div>
+			 <div class="detial-footer" >
+				 <span  @click="computedDetial"><img width="10%" src="./close.png" alt=""></span>
+			 </div>
+		 </div>
 	</div>
 
 </template>
@@ -21,27 +32,40 @@
 	 var vInitial = require("./initial.png");
 	 var vDiscount = require("./discount.png");
 	 
+	 import vStar from "../v-star/v-star";
+
 	export default{
 		name:"vHeader",
 		props:{
 			seller:{
 				type:Object
-			}
+			},
 		},
 		data() {
 			return {
 				vDecrease,
 				vInitial,
-				vDiscount
+				vDiscount,
+				vDetial:false,
+				size,
+				score:5
 			}
 		},
+		components:{
+			vStar
+		},
 		computed:{
-			vSrc() {
+			computedSrc() {
 				if (this.seller.supports[0].type===0) {
 					return vDecrease;
 				}else if(this.seller.supports[0].type===1){
 					return vInitial;
 				}
+			}
+		},
+		methods:{
+			computedDetial() {
+				this.vDetial = !this.vDetial;
 			}
 		}
 	}
@@ -117,5 +141,27 @@
 	height: 55%;
 	vertical-align: middle;
 }
-
+.detial{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(7,17,27,0.7);
+	top:0px;
+	overflow: auto;
+}
+.detial-wraper{
+	min-height: 100%;	
+}
+.detial-content{
+	padding-bottom: 110px;
+	border: 1px solid red;
+	font-size: 86px;
+	
+}
+.detial-footer{
+	margin-top: -110px;
+	height: 110px;
+	line-height: 110px;
+	text-align: center;
+}
 </style>
