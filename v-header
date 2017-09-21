@@ -12,11 +12,16 @@
 			</div>
 		</div>
 		 <div class="bulletin-wrapper" v-if="seller.supports" @click="computedDetial"><span >
-			 <img :src="computedSrc" ></span>{{seller.description}}</div>
+			<img :src="computedSrc" ></span>{{seller.description}}
+		</div>
 		 <div v-show="vDetial" class="detial">
 			 <div class="detial-wraper">
 				 <div class="detial-content">
-					 <vStar :size="size" :score="score"></vStar>
+					 <p>{{seller.name}}</p>
+					 <div class="star-wraper">
+						 <vStar :size="4" :score="5"></vStar>	 
+					 </div>
+					 <vStar :size="4" :score="5"></vStar>
 				 </div>
 			 </div>
 			 <div class="detial-footer" >
@@ -43,11 +48,7 @@
 		},
 		data() {
 			return {
-				vDecrease,
-				vInitial,
-				vDiscount,
 				vDetial:false,
-				size,
 				score:5
 			}
 		},
@@ -156,7 +157,11 @@
 	padding-bottom: 110px;
 	border: 1px solid red;
 	font-size: 86px;
-	
+	color:#fff;
+	text-align: center
+}
+.detial-content p{
+	margin-top: 17%;
 }
 .detial-footer{
 	margin-top: -110px;
