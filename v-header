@@ -19,9 +19,16 @@
 				 <div class="detial-content">
 					 <p>{{seller.name}}</p>
 					 <div class="star-wraper">
-						 <vStar :size="4" :score="5"></vStar>	 
+						 <vStar :size="50" :score="4"></vStar>	 
 					 </div>
-					 <vStar :size="4" :score="5"></vStar>
+					 <div class="title">
+						 <div class="title-left"></div>
+						 <div class="title-text">优惠信息</div>
+						 <div class="title-right"></div>
+					 </div>
+					 <ul>
+						 <li v-for="item in seller.supports"><img :src="" alt="">{{item.description}}</li>
+					 </ul>
 				 </div>
 			 </div>
 			 <div class="detial-footer" >
@@ -51,6 +58,9 @@
 				vDetial:false,
 				score:5
 			}
+		},
+		created() {
+			this.classMap=["decrease","discount","initial"]
 		},
 		components:{
 			vStar
@@ -155,10 +165,10 @@
 }
 .detial-content{
 	padding-bottom: 110px;
-	border: 1px solid red;
 	font-size: 86px;
 	color:#fff;
-	text-align: center
+	text-align: center;
+	height: 100%;
 }
 .detial-content p{
 	margin-top: 17%;
@@ -168,5 +178,24 @@
 	height: 110px;
 	line-height: 110px;
 	text-align: center;
+}
+.star-wraper{
+	border: 1px solid #fff;
+}
+.title{
+	height: 40;
+	border: 1px solid yellow;
+	height: 100px;
+	line-height: 100px;
+	display: flex;
+	justify-content: space-between;
+}
+.title-left,.title-right{
+	border: 2px solid red;
+	flex-flow: 1;
+	width: 20%;
+}
+.title-text{
+	background-color: #fffd;
 }
 </style>
