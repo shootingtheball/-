@@ -1,10 +1,8 @@
 <template>
-  <div class="vStar" :class="detialStar">
-    <template>
-      <span v-for="star in stars" class="vStars" >
-      <img :src="star.picture">
-    </span>
-    </template>
+  <div class="main" :class="detialStar">
+      <span v-for="item in stars" class="wraper" :key="item.id" >
+      <img :src="item.vSrc" :style="starStyle">
+      </span>
   </div>
 </template>
 
@@ -31,14 +29,21 @@ export default {
     detialStar() {
       var compare =this.score-(Math.floor(this.score)+0.5);
       var integer = Math.floor(this.score);
-      this.stars=this.stars.splice(0,this.stars.length);
-      console.log(this.stars.length)
+      this.stars.splice(0,this.stars.length);
+
       for (var i = 0; i< integer; i++) {
-        this.stars.push({picture:picStar}) 
+        this.stars.push({vSrc:picStar,
+        id:i+1}) 
       }
       
       if (compare>=0) {
-        this.stars.push({picture:picStar2})
+        this.stars.push({vSrc:picStar2})
+        this.stars=this.stars.splice(0,this.stars.length);
+      }
+    },
+    starStyle() {
+      return {
+        width:this.size+"px"
       }
     }
   }
@@ -46,11 +51,15 @@ export default {
 </script>
 
 <style>
-.vStar{
-  border: 1px solid yellow
+
+.main{
+
 }
-.vStars img{
-  width: 100px;
+.wraper{
+  margin-right: 5%;
+}
+.wraper:last-child{
+  margin-right: 0;
 }
 </style>
 
