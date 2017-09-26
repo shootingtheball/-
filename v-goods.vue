@@ -41,7 +41,6 @@ export default {
     flex: 0 0 80px;
     width: 80px;
     background: #F5F5F5;
-
 }
 .goods-food{
     flex: 1
@@ -51,16 +50,24 @@ export default {
     font-size: 12px;
     height: 54px;
     display: table;
-    width: 80px;
-    border-bottom: 1px solid 	#CCCCCC
+    width: 56px;
+    position: relative;
+    padding:0 12px
 }
 .menu-item:hover{
     background:	#fff
 }
 .menu-item span{
     display: table-cell;
-    width: 130px;
-    vertical-align: middle
+    vertical-align: middle;
+}
+.menu-item::after{
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 0;
+    border-bottom: 1px solid rgba(7, 17, 27, .1)
 }
 </style>
 
