@@ -6,6 +6,7 @@
   </div>
 </template>
 
+
 <script>
 var picStar = require("./star.png");
 var picStar2 = require("./star2.png")
@@ -30,7 +31,6 @@ export default {
       var compare =this.score-(Math.floor(this.score)+0.5);
       var integer = Math.floor(this.score);
       this.stars.splice(0,this.stars.length);
-
       for (var i = 0; i< integer; i++) {
         this.stars.push({vSrc:picStar,
         id:i+1}) 
@@ -51,9 +51,7 @@ export default {
 </script>
 
 <style>
-
 .main{
-
 }
 .wraper{
   margin-right: 5%;
@@ -62,4 +60,3 @@ export default {
   margin-right: 0;
 }
 </style>
-
