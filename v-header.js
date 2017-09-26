@@ -6,13 +6,11 @@
 		    </div>
 			<div class="avatar" ><img src="./zhangliang.jpg" alt=""></div>
 			<div class="content">
-				<div class="title"  v-if="seller.supports">{{seller.name}} </div>
-				<div class="description">{{seller.description}}</div>
-				<div class="supports">商家配送约{{seller.deliverTime}}</div>
-			</div>
+				<div class="content-title"  v-if="seller.supports">{{seller.name}} </div>
+				<div class="content-supports">商家配送约{{seller.deliverTime}}分钟</div></div>
 		</div>
-		 <div class="bulletin-wrapper" v-if="seller.supports" @click="computedDetial"><span >
-			<img :src="computedSrc" ></span>{{seller.description}}
+		 <div class="bulletin-wrapper" v-if="seller.supports" @click="computedDetial">
+			<img :src="computedSrc" ><span>{{seller.description}}</span>{{seller.description}}
 		</div>
 		 <div v-show="vDetial" class="detial">
 			 <div class="detial-wraper">
@@ -27,7 +25,8 @@
 						 <div class="title-right"></div>
 					 </div>
 					 <ul>
-						 <li v-for="item in seller.supports"><img :src="" alt="">{{item.description}}</li>
+						 <li v-for="item in seller.supports"><span><img :src="computedSrc2(item)" alt=""></span>
+						 <span>{{item.description}}</span></li>
 					 </ul>
 				 </div>
 			 </div>
@@ -43,7 +42,7 @@
 	 var vDecrease = require("./decrease.png");
 	 var vInitial = require("./initial.png");
 	 var vDiscount = require("./discount.png");
-	 
+	
 	 import vStar from "../v-star/v-star";
 
 	export default{
@@ -77,6 +76,15 @@
 		methods:{
 			computedDetial() {
 				this.vDetial = !this.vDetial;
+			},
+			computedSrc2(item) {
+				if (item.type===0) {
+					return vDecrease;
+				} else if(item.type===1){
+					return vDiscount
+				}else{
+					return vInitial
+				}
 			}
 		}
 	}
@@ -88,21 +96,21 @@
 .header{
 	width:100%;
 	position: relative;
-	height: 400px;
+	height: 135px;
 }
 .content-wrapper{
-	height: 300px;
+	height: 107px;
 	position: relative;
 	background: rgba(7, 17, 27, 0.2)
 }
 .avatar{
 	display: inline-block;
 	vertical-align: middle;
-	margin-left: 50px;
-	margin-top: 90px;
+	margin-left: 40px;
+	margin-top: 30px;
 }
 .avatar img{
-	width: 230px;
+	width: 84px;
 }
 .content{
 	display: inline-block;
@@ -114,19 +122,17 @@
 	overflow: hidden;
 	color:#fff;
 }
-.title{
-	font-size: 45px;
-	height: 60px
-}
-.title span{
-
+.content-title{
+	font-size: 16px;
+	font-weight: 700;
+	height: 60px;
+	line-height: 60px
 }
 .description{
-	font-size: 25px;
+	font-size: 12px;
 }
-.supports{
-	font-size: 20px;
-	margin-top: 30px;
+.content-supports{
+	font-size: 12px;
 }
 .background{
 	position: absolute;
@@ -141,16 +147,19 @@
 	position: absolute;
 	width: 100%;
 	bottom: 0;
-	line-height:65px; 
-	height: 65px;
-	font-size: 20px;
-	text-overflow: ellipsis;
+	line-height:28px; 
+	height: 28px;
+	font-size: 12px;
+	text-overflow: ellipsis;	
 	overflow: hidden;
 	white-space: nowrap;
 }
+.bulletin-wrapper span{
+	vertical-align: middle
+}
 .bulletin-wrapper img{
-	height: 55%;
-	vertical-align: middle;
+	height: 20px;
+	vertical-align: middle
 }
 .detial{
 	position: fixed;
@@ -184,7 +193,6 @@
 }
 .title{
 	height: 40;
-	border: 1px solid yellow;
 	height: 100px;
 	line-height: 100px;
 	display: flex;
@@ -197,5 +205,21 @@
 }
 .title-text{
 	background-color: #fffd;
+}
+.detial-content ul{
+	margin-top: 60px;
+}
+.detial-content li{
+	
+	font-size: 40px;
+	height: 60px;
+	line-height: 60px
+}
+.detial-content li img{
+	width: 30px;
+	vertical-align: middle
+}
+.detial-content li span:last-child{
+	
 }
 </style>
