@@ -2,7 +2,7 @@
   <div class="goods">
       <div class="goods-menu">
           <ul>
-              <li></li>
+              <li v-if="goods" v-for="item in goods" class="menu-item"><span>{{item.name}}</span></li>
           </ul>
       </div>
       <div class="goods-food"></div>
@@ -14,17 +14,17 @@ export default {
   name:"vGoods",
   data() {
       return{
-          goods:""
+        goods:""
       }
   },
- /* created() {
-      this.$http.get("api/goods").then((response)=>{
-          response = response.body
-          if(response.errno===0){
-              this.goods= response.data
-          }
-      })
-  } */
+		created() {
+			this.$http.get('api/goods').then((response) => {
+				response=response.body;
+				if (response.errno ===0) {
+					this.goods = response.data;
+				}
+			})
+		}
 }
 </script>
 
@@ -33,18 +33,34 @@ export default {
     display: flex;
     position: absolute;
     width: 100%;
-    top:400px;
-    bottom: 100px;
+    top:135px;
+    bottom: 48px;
     z-index: -1;
 }
 .goods-menu{
-    flex: 0 0 120px;
-    width: 120px;
-    background: #EDEDED;
+    flex: 0 0 80px;
+    width: 80px;
+    background: #F5F5F5;
 
 }
 .goods-food{
     flex: 1
+}
+.menu-item{
+    text-align: center;
+    font-size: 12px;
+    height: 54px;
+    display: table;
+    width: 80px;
+    border-bottom: 1px solid 	#CCCCCC
+}
+.menu-item:hover{
+    background:	#fff
+}
+.menu-item span{
+    display: table-cell;
+    width: 130px;
+    vertical-align: middle
 }
 </style>
 
