@@ -7,7 +7,8 @@
 			<div class="avatar" ><img src="./zhangliang.jpg" alt=""></div>
 			<div class="content">
 				<div class="content-title"  v-if="seller.supports">{{seller.name}} </div>
-				<div class="content-supports">商家配送约{{seller.deliverTime}}分钟</div></div>
+				<div class="content-supports">商家配送约{{seller.deliverTime}}分钟</div>
+			</div>
 		</div>
 		 <div class="bulletin-wrapper" v-if="seller.supports" @click="computedDetial">
 			<img :src="computedSrc" ><span>{{seller.description}}</span>{{seller.description}}
@@ -15,9 +16,9 @@
 		 <div v-show="vDetial" class="detial">
 			 <div class="detial-wraper">
 				 <div class="detial-content">
-					 <p>{{seller.name}}</p>
+					 <p class="detail-content-name">{{seller.name}}</p>
 					 <div class="star-wraper">
-						 <vStar :size="50" :score="4"></vStar>	 
+						 <vStar :size="22" :score="4"></vStar>	 
 					 </div>
 					 <div class="title">
 						 <div class="title-left"></div>
@@ -114,7 +115,6 @@
 }
 .content{
 	display: inline-block;
-	width: 650px;
 	vertical-align: middle;
 	font-size: 0;
 	white-space: nowrap;
@@ -181,6 +181,8 @@
 }
 .detial-content p{
 	margin-top: 17%;
+	font-size: 16px;
+    font-weight: 700;
 }
 .detial-footer{
 	margin-top: -110px;
@@ -210,7 +212,6 @@
 	margin-top: 60px;
 }
 .detial-content li{
-	
 	font-size: 40px;
 	height: 60px;
 	line-height: 60px
