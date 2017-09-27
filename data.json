@@ -25,14 +25,17 @@
             "foods":[
                 {
                     "name":"皮蛋瘦肉粥",
+                    "description":"咸粥",
                     "price":10
                 },
                 {
                     "name":"麻辣烫",
+                    "description":"咸粥",
                     "price":10
                 },
                 {
                     "name":"松花蛋",
+                    "description":"咸粥",
                     "price":10
                 }
             ]
