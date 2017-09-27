@@ -5,7 +5,23 @@
               <li v-if="goods" v-for="item in goods" class="menu-item"><span>{{item.name}}</span></li>
           </ul>
       </div>
-      <div class="goods-food"></div>
+      <div class="goods-food">
+          <ul>
+              <li v-for="item in goods">
+                  <h1>{{item.name}}</h1>
+                  <ul>
+                      <li v-for="n in item.foods" class="foods-item">
+                          <div class="foods-content">
+                              <div><img src="./1.jpeg" width="100px"></div>
+                              <div v-if="n.description">{{n.description}}</div>
+                              <div>{{n.name}}</div>
+                              <div>{{n.price}}</div>
+                          </div>
+                      </li>
+                  </ul>
+              </li>
+          </ul>
+      </div>
   </div>
 </template>
 
@@ -68,6 +84,30 @@ export default {
     right: 12px;
     bottom: 0;
     border-bottom: 1px solid rgba(7, 17, 27, .1)
+}
+li{
+    list-style:  none;
+}
+.goods-food h1{
+    font-size: 12px;
+    height: 26px;
+    line-height: 26px;
+    background: #f3f5f7;
+    color:#93999f;
+    border-left: 2px solid #d9dde1;
+    padding-left: 12px
+}
+.foods-content{
+    font-size:14px;
+    font-weight: 400
+}
+.foods-content{
+    display: flex;
+    margin:0 18px;
+    border-bottom: 1px solid rgba(7, 17, 27, .1)
+}
+.foods-content img{
+    width: 57px
 }
 </style>
 
