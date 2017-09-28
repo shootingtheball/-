@@ -9,10 +9,10 @@
           <ul>
               <li v-for="item in goods">
                   <h1>{{item.name}}</h1>
-                  <ul>
+                  <ul class="foods-ul">
                       <li v-for="n in item.foods" class="foods-item">
+                          <div class="icon"><img src="./1.jpeg" width="100px"></div>
                           <div class="foods-content">
-                              <div><img src="./1.jpeg" width="100px"></div>
                               <div v-if="n.description">{{n.description}}</div>
                               <div>{{n.name}}</div>
                               <div>{{n.price}}</div>
@@ -98,16 +98,26 @@ li{
     padding-left: 12px
 }
 .foods-content{
-    font-size:14px;
-    font-weight: 400
-}
-.foods-content{
-    display: flex;
     margin:0 18px;
-    border-bottom: 1px solid rgba(7, 17, 27, .1)
+    font-size:14px;
+    font-weight: 400;
+    flex: 1
 }
-.foods-content img{
-    width: 57px
+.foods-item{
+        display: flex;
+        height: 78px;
+        padding: 18px 0;
+        margin: 0 18px;
+        border-bottom: 1px solid rgba(7, 17, 27, .1);
+}
+.foods-ul li:last-child{
+    border:0
+}
+
+.icon{
+    flex : 0 0 57px;
+}
+.foods-item img{
+    width: 63px
 }
 </style>
-
