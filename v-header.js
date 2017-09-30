@@ -180,7 +180,6 @@
 	height: 100%;
 }
 .detial-content p{
-	margin-top: 17%;
 	font-size: 16px;
     font-weight: 700;
 }
