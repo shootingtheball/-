@@ -5,9 +5,9 @@
               <li v-if="goods" v-for="item in goods" class="menu-item"><span>{{item.name}}</span></li>
           </ul>
       </div>
-      <div class="goods-food">
-          <ul>
-              <li v-for="item in goods">
+      <div class="goods-food" ref="pro">
+          <ul class="goods-ul">
+              <li v-for="item in goods"  >
                   <h1>{{item.name}}</h1>
                   <ul class="foods-ul">
                       <li v-for="n in item.foods" class="foods-item">
@@ -26,26 +26,59 @@
 </template>
 
 <script>
+import BScroll from "better-scroll";
+
 export default {
   name:"vGoods",
   data() {
       return{
-        goods:""
+        goods:"",
+        scrollY,
+        height
       }
   },
-		created() {
+        created() {
 			this.$http.get('api/goods').then((response) => {
 				response=response.body;
 				if (response.errno ===0) {
 					this.goods = response.data;
 				}
-			})
-		}
+            }),
+            this.$nextTick(() => {
+                this.haha = new BScroll(this.$refs.pro,{type:3});
+                this.haha.on("scroll",(pos) => {
+                    this.scrollY = Math.abs(Math.round(pos.y))
+                })
+            })
+        },
+        methods:{
+            caculateH() {
+                var dataLi = this.$refs.pro.getElementsByTagName("li");
+                this.height = 0;
+                var data =[0];
+                for (var i = 0; i < dataLi.length; i++) {
+                    height += dataLi[i].clientHeight;
+                    data.push(height);
+                    }
+                }
+            },
+        computed:{
+            currentIndex() {
+                for (var i = 0; i < this.length; i++) {
+                    var element = this.length[i];
+                    var element2 =this.length[i+1];
+                if(!height2||this.scrollY>element && this.scrollY<element2){
+                    return i 
+                }
+            }
+            }
+        }
 }
 </script>
 
 <style>
 .goods{
+    overflow: hidden;
     display: flex;
     position: absolute;
     width: 100%;
