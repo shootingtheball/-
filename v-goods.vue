@@ -1,11 +1,11 @@
 <template>
   <div class="goods">
-      <div class="goods-menu">
+      <div class="goods-menu" >
           <ul>
               <li v-if="goods" v-for="item in goods" class="menu-item"><span>{{item.name}}</span></li>
           </ul>
       </div>
-      <div class="goods-food" ref="pro">
+      <div class="goods-food"  ref="pro">
           <ul class="goods-ul">
               <li v-for="item in goods"  >
                   <h1>{{item.name}}</h1>
@@ -16,26 +16,46 @@
                               <div v-if="n.description">{{n.description}}</div>
                               <div>{{n.name}}</div>
                               <div>{{n.price}}</div>
+                              <div class="cartcontrol-wrapper">
+                                  <cartcontrol :food="n"></cartcontrol>
+                              </div>
                           </div>
                       </li>
                   </ul>
               </li>
           </ul>
       </div>
+      <shopcart :minPrice = "seller.deliverTime" :goods="goods"></shopcart>
   </div>
+  <food></food>
 </template>
 
 <script>
-import BScroll from "better-scroll";
 
+
+import BScroll from "better-scroll";
+import shopcart from "../shopcart/shopcart";
+import cartcontrol from"../cartcontrol/cartcontrol"
 export default {
   name:"vGoods",
   data() {
       return{
-        goods:"",
-        scrollY,
-        height
+        goods:{
+
+        },
+        selectFood:{
+            
+        }
       }
+  },
+  props:{
+      seller:{
+          type:Object,
+          default:0
+      }
+  },
+  components:{
+      shopcart,cartcontrol
   },
         created() {
 			this.$http.get('api/goods').then((response) => {
@@ -45,15 +65,15 @@ export default {
 				}
             }),
             this.$nextTick(() => {
-                this.haha = new BScroll(this.$refs.pro,{type:3});
-                this.haha.on("scroll",(pos) => {
-                    this.scrollY = Math.abs(Math.round(pos.y))
-                })
+                this.initScroll();
             })
         },
         methods:{
+            initScroll(){
+                this.HAHA= new BScroll(this.$refs.pro,{click:true});
+            },
             caculateH() {
-                var dataLi = this.$refs.pro.getElementsByTagName("li");
+                var dataLi = this.$refs.pro.getElementsByTagName(li);
                 this.height = 0;
                 var data =[0];
                 for (var i = 0; i < dataLi.length; i++) {
@@ -70,8 +90,20 @@ export default {
                 if(!height2||this.scrollY>element && this.scrollY<element2){
                     return i 
                 }
-            }
-            }
+             }
+            },
+            /*selectFoods() {
+              var data=[];
+              this.goods.forEach(function(element) {
+                  element.foods.forEach(function(ele){
+                      if(ele.count){
+                          data.push(ele.count)
+                      }
+                  })
+              }, this);
+              console.log(data);
+              return data;
+            }*/
         }
 }
 </script>
@@ -142,15 +174,20 @@ li{
         padding: 18px 0;
         margin: 0 18px;
         border-bottom: 1px solid rgba(7, 17, 27, .1);
+        position: relative;
 }
 .foods-ul li:last-child{
     border:0
 }
-
 .icon{
     flex : 0 0 57px;
 }
 .foods-item img{
     width: 63px
+}
+.cartcontrol-wrapper{
+    position: absolute;
+    right: 0;
+    bottom: 12px
 }
 </style>
