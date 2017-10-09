@@ -10,14 +10,14 @@
               <li v-for="item in goods"  >
                   <h1>{{item.name}}</h1>
                   <ul class="foods-ul">
-                      <li v-for="n in item.foods" class="foods-item">
+                      <li v-for="food in item.foods" class="foods-item">
                           <div class="icon"><img src="./1.jpeg" width="100px"></div>
                           <div class="foods-content">
-                              <div v-if="n.description">{{n.description}}</div>
-                              <div>{{n.name}}</div>
-                              <div>{{n.price}}</div>
+                              <div v-if="food.description">{{food.description}}</div>
+                              <div>{{food.name}}</div>
+                              <div>{{food.price}}</div>
                               <div class="cartcontrol-wrapper">
-                                  <cartcontrol :food="n"></cartcontrol>
+                                  <cartcontrol :food="food" @click="selectFoods"></cartcontrol>
                               </div>
                           </div>
                       </li>
@@ -25,26 +25,20 @@
               </li>
           </ul>
       </div>
-      <shopcart :minPrice = "seller.deliverTime" :goods="goods"></shopcart>
+      <shopcart :minPrice = "seller.deliverTime" ></shopcart>
   </div>
-  <food></food>
 </template>
 
 <script>
-
-
 import BScroll from "better-scroll";
 import shopcart from "../shopcart/shopcart";
-import cartcontrol from"../cartcontrol/cartcontrol"
+import cartcontrol from"../cartcontrol/cartcontrol";
+
 export default {
   name:"vGoods",
   data() {
       return{
         goods:{
-
-        },
-        selectFood:{
-            
         }
       }
   },
@@ -66,6 +60,8 @@ export default {
             }),
             this.$nextTick(() => {
                 this.initScroll();
+                console.log(this.goods);
+                console.log(this.goods)
             })
         },
         methods:{
@@ -92,18 +88,17 @@ export default {
                 }
              }
             },
-            /*selectFoods() {
+            selectFoods() {
               var data=[];
               this.goods.forEach(function(element) {
                   element.foods.forEach(function(ele){
                       if(ele.count){
-                          data.push(ele.count)
+                          data.push(ele)
                       }
                   })
-              }, this);
-              console.log(data);
+              });
               return data;
-            }*/
+            }
         }
 }
 </script>
