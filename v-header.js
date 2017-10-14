@@ -98,6 +98,7 @@
 	width:100%;
 	position: relative;
 	height: 135px;
+	z-index: 10;
 }
 .content-wrapper{
 	height: 107px;
