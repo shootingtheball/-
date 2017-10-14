@@ -1,7 +1,7 @@
 <template>
   <div class="shopcart">
-      <div class="content">
-      <div class="content-left">
+      <div class="content" @click="toggleList">
+          <div class="content-left">
           <div class="logo-wrapper">
               <div class="logo fa fa-cart-plus" :class="{highlight:totlePrice>0}">
               </div>
@@ -13,41 +13,102 @@
           <div class="desc">
               另需配送费{{minPrice}}
           </div>
-      </div>
-      <div class="content-right" >
+          </div>
+          <div class="content-right" >
           <div class="pay"  :class="payClass">{{payDesc}}</div>
+          </div>
       </div>
+      <transition name="list-move">
+      <div class="shopcart-list" v-show="listShow">
+          <div class="list-header">
+              <div class="list-title">购物车</div>
+              <div class="empty">清空</div>
+          </div>
+          <div class="list-content" ref="pr">
+              <ul>
+                  <li v-for="item in selectFoods">
+                      <div class="name">{{item.name}}</div>
+                      <div class="price">{{item.price}}</div>
+                      <div class="cartcontrol-wrapper" > 
+                          <cartcontrol :food="item" class="cartcontrol"></cartcontrol>
+                      </div>
+                  </li>
+              </ul>
+          </div>
       </div>
+      </transition>
+     <!-- <transition name="fade">
+          <div class="mask" v-show="listShow"></div>
+      </transition> -->
   </div>
 </template>
 
 <script>
+import BScroll from "better-scroll";
+import cartcontrol from"../cartcontrol/cartcontrol";
 import Vue from "vue";
 
 export default {
   name:"shopcart",
+  data() {
+      return{
+          fode:false
+      }
+  },
   props:{
       minPrice:{
           type:Number,
           default:0
       },
-      select:{
-          type:Array,
+      selectFoods:{
           default() {
-              return [{price:10,count:1}]
+              return [];
           }
-      },
-      goods:{
-          type:Object
       }
+  },
+  mounted() {
+      console.log(1)
+              
+  },
+  methods:{
+      initScroll() {
+                this.HAHA= new BScroll(this.$refs.pr,{click:true});
+            },
+      toggleList() {
+          if(this.selectFoods.length===0){
+              return false
+          }else{
+              this.fode = !this.fode;
+
+          }
+      }
+  },
+  components:{
+      cartcontrol
   },
   computed:{
       totlePrice() {
           var totle =0;
-          this.select.forEach(function(f) {
+          this.selectFoods.forEach(function(f) {
             totle += f.count*f.price
           });
+          if(this.fode){
+              if(!this.HAHA){
+                         this.$nextTick(function(){
+                  this.initScroll(); 
+              })
+              }else{
+
+              }
+          }
           return totle;
+         
+      },
+      listShow() {
+          if(this.selectFoods.length===0){
+              this.fode=false
+          };
+          return this.fode;
       },
       payDesc() {
           if (this.totlePrice===0){
@@ -63,27 +124,6 @@ export default {
           if (this.totlePrice>this.minPrice) {
               return "enough"
           }
-      }
-  },
-  created() {
-      this.selectFoods();
-  },
-  methods:{
-      selectFoods() {
-          var d = [1,2,3];
-          console.log(this.goods);
-             var data=[];
-             console.log(Array.isArray(this.goods));
-              this.goods.forEach(function(element) {
-                  element.foods.forEach(function(ele){
-                      if(ele.count){
-                          console.log(ele);
-                          data.push(ele)
-                      }
-                  })
-              });
-              console.log(data);
-              return data;
       }
   }
 }
@@ -104,11 +144,14 @@ export default {
     width: 100%;  
     height: 48px;
     line-height: 48px;
-    color: gray
+    color: gray; 
 }
 .content{
     display: flex;
     background: #141d27;
+    position: absolute;
+    width: 100%;
+    z-index: 10;
 }
 .content-left{
     flex: 1;
@@ -136,6 +179,7 @@ export default {
     background: #2b343c;
     text-align: center;
     height: 44px;
+    line-height: 44px;
     cursor: pointer;
     font-size: 24px
 }
@@ -203,5 +247,62 @@ i img{
 .enough{
     background: #00b43c;
     color: #fff
+}
+
+.list-content .name{
+    font-weight: 700;
+    font-size: 14px;
+    flex:1
+}
+.list-header{
+    display: flex;
+    justify-content: space-between;
+    padding:  0 20px;
+    background: #f3f5f7;
+}
+.list-content ul{
+    padding: 0 20px;
+    background: #fff;
+    max-height: 150px;
+}
+.list-content li{
+    display: flex;
+    border-bottom: 1px solid rgba(7, 17, 27,0.2);
+    height: 48px;
+    justify-content: space-between;
+}
+.list-content li div{
+    line-height: 48px
+}
+.cartcontrol-wrapper{
+    vertical-align: baseline;
+}
+.cartcontrol{
+    vertical-align: baseline;
+    height: 48px;
+}
+.shopcart-list{
+    color: black;
+    position: absolute;
+    top: 0;
+    z-index: 50;
+    left: 0;
+    width: 100%;
+    transform: translate3d(0, -100%, 0)
+}
+.list-move-enter-active,.list-move-leave-active{
+    transition: all 0.3s linear;
+}
+.list-move-enter,.list-move-leave-to{
+transform: translate3d(0, 0, 0)
+}
+.mask{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(7, 17, 27, .6);
+    z-index: 2000;
 }
 </style>
