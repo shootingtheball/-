@@ -1,4 +1,5 @@
 <template>
+  <div>
   <div class="goods">
       <div class="goods-menu" >
           <ul>
@@ -10,14 +11,14 @@
               <li v-for="item in goods"  >
                   <h1>{{item.name}}</h1>
                   <ul class="foods-ul">
-                      <li v-for="food in item.foods" class="foods-item">
+                      <li v-for="food in item.foods" class="foods-item" @click="selectFood(food,$event)">
                           <div class="icon"><img src="./1.jpeg" width="100px"></div>
                           <div class="foods-content">
                               <div v-if="food.description">{{food.description}}</div>
                               <div>{{food.name}}</div>
                               <div>{{food.price}}</div>
                               <div class="cartcontrol-wrapper">
-                                  <cartcontrol :food="food" @click="selectFoods"></cartcontrol>
+                                  <cartcontrol :food="food" v-on:increment="text"></cartcontrol>
                               </div>
                           </div>
                       </li>
@@ -25,7 +26,10 @@
               </li>
           </ul>
       </div>
-      <shopcart :minPrice = "seller.deliverTime" ></shopcart>
+      <shopcart :minPrice = "30" :selectFoods="selectFoods"></shopcart>
+        
+  </div>
+  <food :food="selectedFood" ref="food"></food>
   </div>
 </template>
 
@@ -33,40 +37,44 @@
 import BScroll from "better-scroll";
 import shopcart from "../shopcart/shopcart";
 import cartcontrol from"../cartcontrol/cartcontrol";
+import food from"../food/food";
 
 export default {
   name:"vGoods",
   data() {
       return{
-        goods:{
+        goods:[],
+        selectedFood:{}
         }
-      }
   },
   props:{
       seller:{
-          type:Object,
-          default:0
+          type:[Object],
+          default:{}
       }
   },
   components:{
-      shopcart,cartcontrol
+      shopcart,cartcontrol,food
   },
         created() {
 			this.$http.get('api/goods').then((response) => {
 				response=response.body;
 				if (response.errno ===0) {
-					this.goods = response.data;
-				}
-            }),
-            this.$nextTick(() => {
-                this.initScroll();
-                console.log(this.goods);
-                console.log(this.goods)
+                    this.goods = response.data;
+                        this.$nextTick(
+                        function () {
+                            this.initScroll()
+                        }
+                    )  
+                } 
             })
         },
         methods:{
             initScroll(){
                 this.HAHA= new BScroll(this.$refs.pro,{click:true});
+            },
+            text(){
+                console.log("子组件被点击")
             },
             caculateH() {
                 var dataLi = this.$refs.pro.getElementsByTagName(li);
@@ -76,7 +84,15 @@ export default {
                     height += dataLi[i].clientHeight;
                     data.push(height);
                     }
+                },
+            selectFood(food,event) {
+                if(!event._constructed){
+                return;
                 }
+                this.selectedFood = food;
+                console.log(food);
+                this.$refs.food.show()
+            }
             },
         computed:{
             currentIndex() {
@@ -89,16 +105,16 @@ export default {
              }
             },
             selectFoods() {
-              var data=[];
-              this.goods.forEach(function(element) {
-                  element.foods.forEach(function(ele){
-                      if(ele.count){
-                          data.push(ele)
-                      }
-                  })
-              });
-              return data;
+                let foods = [];
+                this.goods.forEach((good) => {
+                    good.foods.forEach((food) => {
+                        if (food.count) {
+                            foods.push(food);
             }
+          });
+        });
+        return foods;
+      }
         }
 }
 </script>
@@ -111,7 +127,6 @@ export default {
     width: 100%;
     top:135px;
     bottom: 48px;
-    z-index: -1;
 }
 .goods-menu{
     flex: 0 0 80px;
@@ -159,7 +174,7 @@ li{
 }
 .foods-content{
     margin:0 18px;
-    font-size:14px;
+    font-size:17px;
     font-weight: 400;
     flex: 1
 }
@@ -180,7 +195,7 @@ li{
 .foods-item img{
     width: 63px
 }
-.cartcontrol-wrapper{
+.foods-content .cartcontrol-wrapper{
     position: absolute;
     right: 0;
     bottom: 12px
